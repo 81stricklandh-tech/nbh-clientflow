@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NBH ClientFlow — AI-Powered Booking &amp; Client Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#F4F2EC; --panel:#FFFFFF; --panel2:#FBFAF5;
+  --bone:#16150F; --muted:#6E6E62;
+  --cash:#2F6BFF; --cash-dim:#8AA4F2; --gold:#C2891C;
+  --leak:#D6453B;
+  --line:rgba(22,21,15,.12);
+  --r:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink); color:var(--bone);
+  font-family:'Inter',sans-serif; line-height:1.55;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.mono{font-family:'JetBrains Mono',monospace;font-weight:500;letter-spacing:.12em;text-transform:uppercase;font-size:11px}
+.disp{font-family:'Bricolage Grotesque',sans-serif;line-height:1.02;letter-spacing:-.02em}
+.cash{color:var(--cash)} .gold{color:var(--gold)} .muted{color:var(--muted)}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  background:rgba(244,242,236,.80);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
+.brand{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:21px;letter-spacing:-.01em}
+.brand b{color:var(--cash)}
+.brand span{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.15em;margin-left:8px;text-transform:uppercase}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;font-weight:600;
+  text-decoration:none;transition:transform .15s ease,background .2s ease;cursor:pointer;border:none}
+.btn-sm{padding:10px 18px;font-size:14px;background:var(--cash);color:#FFFFFF}
+.btn-sm:hover{transform:translateY(-1px)}
+.btn-lg{padding:16px 26px;font-size:16px;background:var(--cash);color:#FFFFFF}
+.btn-lg:hover{transform:translateY(-2px)}
+.btn-ghost{padding:16px 26px;font-size:16px;background:transparent;color:var(--bone);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--cash);color:var(--cash)}
+
+/* hero */
+.hero{padding:70px 0 40px;position:relative}
+.hero::before{content:"";position:absolute;top:-120px;left:50%;transform:translateX(-50%);
+  width:760px;height:520px;background:radial-gradient(closest-side,rgba(47,107,255,.16),transparent 70%);
+  pointer-events:none;z-index:0}
+.hero .wrap{position:relative;z-index:1}
+.eyebrow{color:var(--cash);margin-bottom:20px;display:inline-block}
+.hero h1{font-size:clamp(40px,7.5vw,76px);font-weight:800;max-width:14ch;margin-bottom:22px}
+.hero h1 em{font-style:normal;color:var(--leak);position:relative;white-space:nowrap}
+.hero p.lead{font-size:clamp(17px,2.4vw,21px);color:#3A3A2F;max-width:54ch;margin-bottom:30px}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.cta-note{font-size:13px;color:var(--muted)}
+
+/* signature: leak vs booked */
+.compare{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center;margin-top:54px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px;min-height:230px}
+.card .tag{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.card .tag .mono{font-size:10px}
+.dot{width:9px;height:9px;border-radius:50%}
+.leakcard{box-shadow:inset 0 0 0 1px rgba(214,69,59,.18)}
+.leakcard .dot{background:var(--leak)}
+.bubble{background:#EDEBE3;border-radius:12px;padding:9px 12px;font-size:13px;margin-bottom:8px;max-width:85%;color:#44443A}
+.bubble.me{background:#E3E0D6;margin-left:auto;color:#6A6A5C}
+.meta{font-size:10px;color:#9A9A8B;margin:-3px 2px 12px;font-family:'JetBrains Mono',monospace}
+.meta.right{text-align:right}
+.bookedcard{box-shadow:inset 0 0 0 1px rgba(47,107,255,.28);background:linear-gradient(180deg,rgba(47,107,255,.06),transparent)}
+.bookedcard .dot{background:var(--cash);box-shadow:0 0 10px var(--cash)}
+.receipt{font-family:'JetBrains Mono',monospace;font-size:12px;color:#44443A;line-height:2}
+.receipt .row{display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:2px 0}
+.receipt .row b{color:var(--bone);font-weight:500}
+.locked{margin-top:14px;background:rgba(47,107,255,.12);border:1px solid rgba(47,107,255,.4);
+  color:var(--cash);border-radius:10px;padding:10px 12px;font-weight:600;font-size:14px;display:flex;align-items:center;gap:8px}
+.arrow{font-family:'Bricolage Grotesque',sans-serif;font-size:30px;color:var(--muted)}
+
+/* sections */
+section{padding:64px 0;border-top:1px solid var(--line)}
+.kicker{color:var(--gold);margin-bottom:14px}
+h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(28px,4.6vw,42px);
+  letter-spacing:-.02em;line-height:1.05;margin-bottom:18px;max-width:18ch}
+.sub{color:var(--muted);max-width:56ch;margin-bottom:34px;font-size:17px}
+
+.pains{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.pain{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.pain .n{font-family:'JetBrains Mono',monospace;color:var(--leak);font-size:12px;margin-bottom:10px}
+.pain h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;margin-bottom:7px;letter-spacing:-.01em}
+.pain p{color:var(--muted);font-size:15px}
+
+.gets{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.get{background:linear-gradient(180deg,rgba(47,107,255,.05),transparent);
+  border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.get .ic{font-size:20px;margin-bottom:10px}
+.get h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:18px;margin-bottom:6px;letter-spacing:-.01em}
+.get p{color:var(--muted);font-size:15px}
+
+.proof{background:var(--panel2);border:1px solid var(--line);border-radius:22px;padding:34px;display:grid;
+  grid-template-columns:1.1fr .9fr;gap:30px;align-items:center}
+.proof h2{margin-bottom:14px}
+.proof p{color:#44443A;margin-bottom:22px;font-size:16px}
+.demoframe{background:#FFFFFF;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.demoframe .bar{display:flex;gap:6px;padding:10px 12px;border-bottom:1px solid var(--line)}
+.demoframe .bar i{width:9px;height:9px;border-radius:50%;background:#D7D4CA}
+.demoframe .body{padding:16px 14px 18px}
+.demoframe .url{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:12px}
+.demoframe .glow{height:120px;border-radius:10px;background:
+  radial-gradient(120px 80px at 70% 30%,rgba(47,107,255,.35),transparent 70%),
+  linear-gradient(180deg,#EAF1FF,#FFFFFF);border:1px solid var(--line);display:flex;align-items:flex-end;padding:12px}
+.demoframe .glow b{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px}
+
+.audience{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:9px 16px;font-size:14px;color:#3A3A2F;background:var(--panel)}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;counter-reset:s}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:24px;position:relative}
+.step .num{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:34px;color:var(--cash-dim);line-height:1;margin-bottom:12px}
+.step h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:18px;margin-bottom:7px}
+.step p{color:var(--muted);font-size:15px}
+
+.price{background:linear-gradient(180deg,rgba(194,137,28,.06),transparent);border:1px solid var(--line);
+  border-radius:22px;padding:36px;text-align:center;max-width:620px;margin:0 auto}
+.price .big{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(34px,6vw,52px);margin:6px 0}
+.price .big small{font-size:18px;color:var(--muted);font-weight:500}
+.price .split{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin:22px 0 8px}
+.price .split div{min-width:160px}
+.price .lbl{color:var(--gold);font-size:12px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.price .note{color:var(--muted);font-size:13px;margin-top:18px}
+
+.final{text-align:center}
+.final h2{margin:0 auto 18px}
+.final .sub{margin:0 auto 30px}
+.contacts{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;color:var(--muted);font-size:13px}
+footer b{color:var(--bone)}
+
+@media (max-width:780px){
+  .compare{grid-template-columns:1fr;gap:14px}
+  .arrow{transform:rotate(90deg);justify-self:center}
+  .pains,.gets,.steps{grid-template-columns:1fr}
+  .proof{grid-template-columns:1fr;padding:24px}
+  section{padding:50px 0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* results + testimonials */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:6px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:26px 20px;text-align:center}
+.stat .big{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(30px,5vw,46px);color:var(--cash);line-height:1;letter-spacing:-.02em}
+.stat .lbl{color:var(--muted);font-size:14px;margin-top:10px}
+.fill{outline:2px dashed rgba(47,107,255,.4);outline-offset:3px;border-radius:6px}
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.quote{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:flex;flex-direction:column}
+.quote .stars{color:var(--gold);font-size:15px;letter-spacing:3px;margin-bottom:12px}
+.quote p{font-size:15px;color:var(--bone);line-height:1.6;flex:1}
+.quote .who{margin-top:18px;display:flex;align-items:center;gap:11px}
+.quote .av{width:40px;height:40px;border-radius:50%;background:var(--panel2);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-family:'Bricolage Grotesque',sans-serif;color:var(--muted)}
+.quote .who b{font-size:14px;color:var(--bone);display:block}
+.quote .who span{color:var(--muted);font-size:12px;font-family:'JetBrains Mono',monospace}
+.ph{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent,#2F6BFF);background:rgba(47,107,255,.1);border:1px solid rgba(47,107,255,.3);
+  border-radius:6px;padding:3px 8px;display:inline-block;margin-bottom:12px}
+@media (max-width:780px){ .stats,.quotes{grid-template-columns:1fr} }
+
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="wrap">
+  <div class="brand">NBH <b>ClientFlow</b><span>AI-Powered Booking &amp; Client Management</span></div>
+  <a href="#start" class="btn btn-sm">Get yours →</a>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <span class="eyebrow mono">AI-Powered Booking &amp; Client Management</span>
+  <h1 class="disp">Your DMs are <em>leaking money</em>.</h1>
+  <p class="lead">You only get paid when you're awake to answer. I build you a booking site that talks to every client 24/7, takes a deposit up front, and kills no-shows — so the money stops slipping through your inbox.</p>
+  <div class="cta-row">
+    <a href="https://book.naturalbornhustler.net" target="_blank" rel="noopener" class="btn btn-lg">See a live demo</a>
+    <a href="#start" class="btn btn-ghost">Get yours</a>
+  </div>
+  <p class="cta-note">Real system. Real payments. Already running a live studio.</p>
+
+  <div class="compare">
+    <div class="card leakcard">
+      <div class="tag"><span class="mono" style="color:var(--leak)">Booking by DM</span><span class="dot"></span></div>
+      <div class="bubble">yo you got studio time friday?</div>
+      <div class="meta">Delivered 2:14 AM</div>
+      <div class="bubble">hello?? how much for 3 hrs</div>
+      <div class="meta">Seen · no reply</div>
+      <div class="bubble me">my bad just saw this — still want it?</div>
+      <div class="meta right">Sent 11h later · they booked elsewhere</div>
+    </div>
+    <div class="arrow disp">→</div>
+    <div class="card bookedcard">
+      <div class="tag"><span class="mono cash">Booked &amp; paid</span><span class="dot"></span></div>
+      <div class="receipt">
+        <div class="row"><span>Client</span><b>Marcus T.</b></div>
+        <div class="row"><span>Session</span><b>Fri · 9PM · 3 hrs</b></div>
+        <div class="row"><span>Deposit</span><b>$65 paid</b></div>
+        <div class="row"><span>Booked at</span><b>2:15 AM</b></div>
+      </div>
+      <div class="locked">✓ Locked in — while you slept</div>
+    </div>
+  </div>
+</div></header>
+
+<section id="problem"><div class="wrap reveal">
+  <span class="kicker mono">The leak nobody shows you</span>
+  <h2 class="disp">Every unanswered DM is a sale you already lost.</h2>
+  <p class="sub">It doesn't feel like losing money because you never see it leave. Here's where it goes.</p>
+  <div class="pains">
+    <div class="pain"><div class="n">01</div><h3>After-hours bookings vanish</h3><p>People decide at midnight. If you're asleep, they book whoever answers first.</p></div>
+    <div class="pain"><div class="n">02</div><h3>No deposit, no commitment</h3><p>When booking costs them nothing, flaking costs them nothing. So they flake.</p></div>
+    <div class="pain"><div class="n">03</div><h3>You're the bottleneck</h3><p>Every booking runs through your thumbs. You can't grow what only you can answer.</p></div>
+    <div class="pain"><div class="n">04</div><h3>"DM to book" looks small</h3><p>A real site with deposits reads premium. A full inbox reads side-hustle.</p></div>
+  </div>
+</div></section>
+
+<section id="solution"><div class="wrap reveal">
+  <span class="kicker mono">What you get</span>
+  <h2 class="disp">A booking machine that runs without you.</h2>
+  <p class="sub">Your own branded site — your colors, your prices, your services — powered by an assistant that knows your full schedule and never sleeps.</p>
+  <div class="gets">
+    <div class="get"><div class="ic">💬</div><h3>Answers every client, instantly</h3><p>An AI that talks like you, handles all the back-and-forth, and books them in seconds — 24/7.</p></div>
+    <div class="get"><div class="ic">📅</div><h3>Knows your real availability</h3><p>It books around your actual schedule — your hours, your days off, the slots you've already got filled. No double-bookings, no appointments when you're closed.</p></div>
+    <div class="get"><div class="ic">💳</div><h3>Takes the deposit up front</h3><p>Apple Pay or card. The slot locks the moment they pay, so no-shows stop costing you.</p></div>
+    <div class="get"><div class="ic">📲</div><h3>Confirms &amp; reminds automatically</h3><p>Clients get a confirmation and a reminder before their time — fewer missed appointments.</p></div>
+    <div class="get"><div class="ic">🎯</div><h3>Built around your business</h3><p>Your exact services, pricing, hours and rules — not a generic calendar with your logo slapped on.</p></div>
+  </div>
+</div></section>
+
+<section id="proof"><div class="wrap reveal">
+  <div class="proof">
+    <div>
+      <span class="kicker mono">Not a mockup</span>
+      <h2 class="disp">A real business runs on this today.</h2>
+      <p>I didn't build this to sell a course. I built it for my own recording studio — it books sessions and private events, takes deposits, and runs while I'm in the booth. Tap the demo and book a fake session yourself.</p>
+      <a href="https://book.naturalbornhustler.net" target="_blank" rel="noopener" class="btn btn-lg">Open the live demo →</a>
+    </div>
+    <div class="demoframe" aria-hidden="true">
+      <div class="bar"><i></i><i></i><i></i></div>
+      <div class="body">
+        <div class="url">book.naturalbornhustler.net</div>
+        <div class="glow"><b>NBH Studios — booked &amp; paid</b></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section id="who"><div class="wrap reveal">
+  <span class="kicker mono">Built for</span>
+  <h2 class="disp">If you book clients and live in your DMs — this is for you.</h2>
+  <div class="audience">
+    <span class="chip">Recording studios</span><span class="chip">Barbershops</span><span class="chip">Tattoo &amp; piercing</span>
+    <span class="chip">Hair &amp; braid stylists</span><span class="chip">Lash &amp; nail techs</span><span class="chip">Photographers</span>
+    <span class="chip">Event spaces</span><span class="chip">Detailers</span><span class="chip">Personal trainers</span><span class="chip">Med spas</span>
+  </div>
+</div></section>
+
+<section id="how"><div class="wrap reveal">
+  <span class="kicker mono">How it works</span>
+  <h2 class="disp">Live in days, not months.</h2>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><h3>We build it to your brand</h3><p>Your name, colors, photos, and vibe — a site that looks like you, not a template.</p></div>
+    <div class="step"><div class="num">2</div><h3>We load your services</h3><p>Your prices, hours, deposit rules, and packages go in. The assistant learns your business.</p></div>
+    <div class="step"><div class="num">3</div><h3>You share one link</h3><p>Put it in your bio. It books and collects deposits for you 24/7 — on autopilot.</p></div>
+  </div>
+</div></section>
+
+<section id="pricing"><div class="wrap reveal">
+  <span class="kicker mono">Pricing</span>
+  <h2 class="disp">It pays for itself fast.</h2>
+  <p class="sub">A handful of recovered no-shows and after-hours bookings covers the setup — usually within the first month or two. After that, it's booking and collecting deposits around the clock while you focus on the work.</p>
+  <div class="price">
+    <div class="split">
+      <div><div class="lbl">Build it</div><div class="big">$1,500<small>+</small></div><div class="muted">one-time setup, done for you</div></div>
+      <div><div class="lbl">Keep it running</div><div class="big">$99<small>/mo</small></div><div class="muted">hosting, updates &amp; support</div></div>
+    </div>
+    <p class="note">Final quote depends on your services and how custom you want it. <span class="gold">Edit these numbers anytime.</span></p>
+  </div>
+</div></section>
+
+<section id="start" class="final"><div class="wrap reveal">
+  <span class="kicker mono">See it in action</span>
+  <h2 class="disp">See it in action, then let&#39;s build yours.</h2>
+  <p class="sub">Take 60 seconds to run a booking on the live demo and see the full experience — deposit and all. When you're ready, reach out and we'll build a version customized to your business. You'll know exactly what you're getting before you commit.</p>
+  <div class="contacts">
+    <a href="https://book.naturalbornhustler.net" target="_blank" rel="noopener" class="btn btn-lg">Try the live demo</a>
+    <a href="mailto:nbhclientflow@gmail.com?subject=ClientFlow%20booking%20site%20for%20my%20business" class="btn btn-ghost">Let's get started →</a>
+  </div>
+</div></section>
+
+<footer>
+  <div class="wrap"><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;color:var(--bone);margin-bottom:6px">NBH ClientFlow</div><div style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px">AI-Powered Booking &amp; Client Management</div><a href="mailto:nbhclientflow@gmail.com" style="color:var(--muted);text-decoration:none">nbhclientflow@gmail.com</a> · © 2026 NBH ClientFlow</div>
+</footer>
+
+<script>
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
