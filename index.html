@@ -135,6 +135,16 @@ h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(
 .final .sub{margin:0 auto 30px}
 .contacts{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 
+/* intake form */
+.start-form{max-width:560px;margin:34px auto 0;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:30px}
+.start-form .fg{margin-bottom:16px}
+.start-form label{display:block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.start-form input,.start-form select,.start-form textarea{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);font-family:'Inter',sans-serif;font-size:15px;color:var(--bone)}
+.start-form input:focus,.start-form select:focus,.start-form textarea:focus{outline:none;border-color:var(--cash)}
+.start-form textarea{min-height:92px;resize:vertical}
+.start-form .btn-lg{width:100%;justify-content:center;margin-top:6px}
+.start-form .formnote{font-size:12px;color:var(--muted);text-align:center;margin-top:14px}
+
 footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;color:var(--muted);font-size:13px}
 footer b{color:var(--bone)}
 
@@ -175,7 +185,7 @@ footer b{color:var(--bone)}
 
 <nav class="nav"><div class="wrap">
   <div class="brand">NBH <b>ClientFlow</b><span>AI-Powered Booking &amp; Client Management</span></div>
-  <a href="#start" class="btn btn-sm">Get yours →</a>
+  <a href="#start-form" class="btn btn-sm">Get yours →</a>
 </div></nav>
 
 <header class="hero"><div class="wrap">
@@ -184,7 +194,7 @@ footer b{color:var(--bone)}
   <p class="lead">You only get paid when you're awake to answer. I build you a booking site that talks to every client 24/7, takes a deposit up front, and kills no-shows — so the money stops slipping through your inbox.</p>
   <div class="cta-row">
     <a href="https://book.naturalbornhustler.net" target="_blank" rel="noopener" class="btn btn-lg">See a live demo</a>
-    <a href="#start" class="btn btn-ghost">Get yours</a>
+    <a href="#start-form" class="btn btn-ghost">Get yours</a>
   </div>
   <p class="cta-note">Real system. Real payments. Already running a live studio.</p>
 
@@ -294,8 +304,36 @@ footer b{color:var(--bone)}
   <p class="sub">Take 60 seconds to run a booking on the live demo and see the full experience — deposit and all. When you're ready, reach out and we'll build a version customized to your business. You'll know exactly what you're getting before you commit.</p>
   <div class="contacts">
     <a href="https://book.naturalbornhustler.net" target="_blank" rel="noopener" class="btn btn-lg">Try the live demo</a>
-    <a href="mailto:nbhclientflow@gmail.com?subject=ClientFlow%20booking%20site%20for%20my%20business" class="btn btn-ghost">Let's get started →</a>
+    <a href="#start-form" class="btn btn-ghost">Let's get started →</a>
   </div>
+</div></section>
+
+<section id="start-form" class="final"><div class="wrap">
+  <span class="kicker mono">Get started</span>
+  <h2 class="disp">Tell me about your business.</h2>
+  <p class="sub">Fill this out and you'll go straight to securing your spot with a deposit. We'll start building your custom booking system right away.</p>
+  <form class="start-form" action="https://formspree.io/f/xkolwnwq" method="POST">
+    <input type="hidden" name="_next" value="https://buy.stripe.com/7sY9AV9bgbtieQc4Hq3wQ00">
+    <input type="hidden" name="_subject" value="New ClientFlow lead — let's build!">
+    <div class="fg"><label>Your name</label><input type="text" name="name" required placeholder="First &amp; last"></div>
+    <div class="fg"><label>Business name</label><input type="text" name="business" required placeholder="What's your business called?"></div>
+    <div class="fg"><label>Type of business</label>
+      <select name="business_type" required>
+        <option value="" disabled selected>Select one…</option>
+        <option>Recording studio</option>
+        <option>Barbershop</option>
+        <option>Tattoo shop</option>
+        <option>Hair / nail salon</option>
+        <option>Photographer / videographer</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="fg"><label>Phone</label><input type="tel" name="phone" required placeholder="Best number to reach you"></div>
+    <div class="fg"><label>Email</label><input type="email" name="email" required placeholder="you@email.com"></div>
+    <div class="fg"><label>What do you need?</label><textarea name="details" placeholder="Your services, hours, how you book clients now, anything you want the system to handle…"></textarea></div>
+    <button type="submit" class="btn btn-lg">Submit &amp; continue to deposit →</button>
+    <p class="formnote">Your info comes straight to us. Next screen is a secure Stripe deposit to lock in your build.</p>
+  </form>
 </div></section>
 
 <footer>
