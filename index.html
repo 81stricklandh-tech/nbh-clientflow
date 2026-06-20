@@ -312,7 +312,7 @@ footer b{color:var(--bone)}
   <span class="kicker mono">Get started</span>
   <h2 class="disp">Tell me about your business.</h2>
   <p class="sub">Fill this out and you'll go straight to securing your spot with a deposit. We'll start building your custom booking system right away.</p>
-  <form class="start-form" action="https://formspree.io/f/xkolwnwq" method="POST">
+  <form id="cf-form" class="start-form" action="https://formspree.io/f/xkolwnwq" method="POST">
     <input type="hidden" name="_next" value="https://buy.stripe.com/7sY9AV9bgbtieQc4Hq3wQ00">
     <input type="hidden" name="_subject" value="New ClientFlow lead — let's build!">
     <div class="fg"><label>Your name</label><input type="text" name="name" required placeholder="First &amp; last"></div>
@@ -343,6 +343,19 @@ footer b{color:var(--bone)}
 <script>
   const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  const cfForm=document.getElementById('cf-form');
+  if(cfForm){
+    const STRIPE_DEPOSIT='https://buy.stripe.com/7sY9AV9bgbtieQc4Hq3wQ00';
+    cfForm.addEventListener('submit',function(e){
+      e.preventDefault();
+      const btn=cfForm.querySelector('button[type="submit"]');
+      if(btn){btn.textContent='Sending… one sec';btn.disabled=true;}
+      fetch(cfForm.action,{method:'POST',body:new FormData(cfForm),headers:{'Accept':'application/json'}})
+        .then(function(){window.location.href=STRIPE_DEPOSIT;})
+        .catch(function(){window.location.href=STRIPE_DEPOSIT;});
+    });
+  }
 </script>
 </body>
 </html>
