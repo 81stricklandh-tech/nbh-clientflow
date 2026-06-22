@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>NBH ClientFlow — AI-Powered Booking &amp; Client Management</title>
+<link rel="icon" type="image/png" href="clientflow-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
@@ -32,7 +33,10 @@ body{
 .nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   background:rgba(244,242,236,.80);border-bottom:1px solid var(--line)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
-.brand{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:21px;letter-spacing:-.01em}
+.brand{display:flex;align-items:center;gap:11px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:21px;letter-spacing:-.01em}
+.brand-logo{height:40px;width:auto;display:block;flex:none}
+.footer-logo{height:78px;width:auto;display:block;margin:0 auto 16px}
+@media(max-width:560px){.brand span{display:none}.brand-logo{height:34px}}
 .brand b{color:var(--cash)}
 .brand span{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.15em;margin-left:8px;text-transform:uppercase}
 .btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;font-weight:600;
@@ -184,7 +188,7 @@ footer b{color:var(--bone)}
 <body>
 
 <nav class="nav"><div class="wrap">
-  <div class="brand">NBH <b>ClientFlow</b><span>AI-Powered Booking &amp; Client Management</span></div>
+  <div class="brand"><img src="clientflow-logo.png" class="brand-logo" alt="NBH ClientFlow logo"><div class="wordmark">NBH <b>ClientFlow</b><span>AI-Powered Booking &amp; Client Management</span></div></div>
   <a href="#start-form" class="btn btn-sm">Get yours →</a>
 </div></nav>
 
@@ -337,7 +341,7 @@ footer b{color:var(--bone)}
 </div></section>
 
 <footer>
-  <div class="wrap"><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;color:var(--bone);margin-bottom:6px">NBH ClientFlow</div><div style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px">AI-Powered Booking &amp; Client Management</div><a href="mailto:nbhclientflow@gmail.com" style="color:var(--muted);text-decoration:none">nbhclientflow@gmail.com</a> · © 2026 NBH ClientFlow</div>
+  <div class="wrap"><img src="clientflow-logo.png" class="footer-logo" alt="NBH ClientFlow logo"><div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;color:var(--bone);margin-bottom:6px">NBH ClientFlow</div><div style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px">AI-Powered Booking &amp; Client Management</div><a href="mailto:nbhclientflow@gmail.com" style="color:var(--muted);text-decoration:none">nbhclientflow@gmail.com</a> · © 2026 NBH ClientFlow</div>
 </footer>
 
 <script>
